@@ -84,8 +84,19 @@ class Opt extends React.Component{
   render(){
     return (
       <div class="Ipt">
-            <a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a>
-            <h1>Output Transformer</h1>
+        <div class="jumbotron">
+          <ul class="header-list">
+            <div class="row">
+              <div class="cols-sm-8" id="home">
+                <li><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
+              </div>
+              <div class="cols-sm-8" id="title">
+                <li><center><h2>Output Transformer</h2></center></li>
+              </div>
+            </div>
+          </ul>
+        </div>
+        <div class="container">
             <form>
               <center>
                 <input type="text" id="container" name="container" placeholder="Http Container"/>
@@ -94,6 +105,7 @@ class Opt extends React.Component{
                 <button type="submit" class="btn btn-primary" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>
             </form>
+        </div>
       </div>
     );
   }

@@ -27,11 +27,11 @@ class App extends React.Component{
   }
   render(){
     return (
-      <div className="App" style={{marginTop: '25%'}}>
+      <div className="App" class="container" style={{marginTop: '25%'}}>
         <form>
             <center>
-                <button type="submit" id="ipt" name="ipt" value="ipt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Input Transformer</button>
-                <button type="submit" id="opt" name="opt" value="opt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Output Transformer</button>
+                <button type="submit" class="btn btn-primary" id="ipt" name="ipt" value="ipt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Input Transformer</button>
+                <button type="submit" class="btn btn-primary" id="opt" name="opt" value="opt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Output Transformer</button>
             </center>
         </form>
       </div>

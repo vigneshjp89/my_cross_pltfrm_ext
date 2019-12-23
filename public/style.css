@@ -1,0 +1,19 @@
+.btn-primary{
+    background-color: #1ab394;
+    border-color: #1ab394;
+}
+.btn{
+    background-color: #1ab394;
+}
+ul{
+    margin-left: 20%;
+    list-style: none;
+    display: inline-flex;
+}
+#home{
+    margin-right: 80px;
+}
+textarea{
+    background-color: #e9ecef;
+    border-radius: 10px;
+}

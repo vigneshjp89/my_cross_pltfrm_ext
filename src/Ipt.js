@@ -75,16 +75,28 @@ class Ipt extends React.Component{
   render(){
     return (
       <div class="Ipt">
-            <a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a>
-            <h1>Input Transformer</h1>
+        <div class="jumbotron">
+          <ul class="header-list">
+            <div class="row">
+              <div class="cols-sm-4" id="home">
+                <li><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
+              </div>
+              <div class="cols-sm-8" id="title">
+                <li><center><h2>Input Transformer</h2></center></li>
+              </div>
+            </div>
+          </ul>
+        </div>
+        <div class="container">
             <form>
               <center>
                 {//<input type="text" name="container" placeholder="Http Container"/>
                 /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
-                <textarea id="textArea" rows="50" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
-                <button type="submit" class="btn btn-primary" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
+                <textarea id="textArea" class="well" rows="50" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
+                <button type="submit" class="btn" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>
             </form>
+        </div>
       </div>
     );
   }
