@@ -75,3 +75,7 @@ git add README.md
 git commit -m "first commit"
 git remote add origin https://github.com/vigneshjp89/myextension.git
 git push -u origin master
+
+
+
+package.json in build INLINE_RUNTIME_CHUNK=false append at start

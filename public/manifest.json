@@ -2,7 +2,7 @@
   "name": "Flow Transformer",
   "version": "1.0",
   "manifest_version": 2,
-  "icons":{"128":"flow-icon.png"},
+  "icons":{"128":"ft.png"},
   "browser_action": {
       "default_popup": "index.html"
   },

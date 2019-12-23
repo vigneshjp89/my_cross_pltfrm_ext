@@ -92,7 +92,7 @@ class Ipt extends React.Component{
               <center>
                 {//<input type="text" name="container" placeholder="Http Container"/>
                 /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
-                <textarea id="textArea" class="well" rows="50" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
+                <textarea id="textArea" class="well" rows="30" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
                 <button type="submit" class="btn" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>
             </form>

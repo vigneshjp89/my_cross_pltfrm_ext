@@ -101,7 +101,7 @@ class Opt extends React.Component{
               <center>
                 <input type="text" id="container" name="container" placeholder="Http Container"/>
                 <input type="text" id="subcontainer" name="subcontainer" placeholder="Http Sub-container"/><br/>
-                <textarea id="textArea" rows="70" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
+                <textarea id="textArea" rows="30" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
                 <button type="submit" class="btn btn-primary" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>
             </form>
