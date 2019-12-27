@@ -25,61 +25,69 @@ class Opt extends React.Component{
     var tform="";
       try {
         data=JSON.parse(data);
+        var container=document.getElementById('container').value;
+        var subcontainer=document.getElementById('subcontainer').value;
+        //data=data[container];
+        var tform="";
+        if(typeof data==="object" && Array.isArray(data)){
+            tform=`<json:array>\n\t<Core:forEach items="\${${container}.body${((subcontainer.length>0)?`.${subcontainer}`:"")}}" var="data">\n`;
+            tform+="\t\t<json:object>\n";
+            for(var key in data[0]){
+                if(typeof data[0][key]==="object" && !Array.isArray(data[0][key])){
+                  if(data[0][key]==null){
+                    tform+=`\t\t\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
+                  }else{
+                    for(var inkey in data[0][key]){
+                      tform+=`\t\t\t<json:property name="${this.fixKey(key)}_${this.fixKey(inkey)}" value="\${data['${key}']['${inkey}']}"/>\n`;
+                    }
+                  }
+                }
+                else if(typeof data[key]==="object" && Array.isArray(data[key])){
+                    // tform+=`\t\t<json:property name=\"${this.fixKey(key)}\">\n\t\t\t<json:array>\n\t\t\t\t<json:object>\n`;
+                    // for(var inkey in data[key][0]){
+                    //     tform+=`\t\t\t\t\t<json:property name="${this.fixKey(inkey)}" value="\${data.${key}_${inkey}}"/>\n`;
+                    // }
+                    // tform+=`\t\t\t\t</json:object>\n\t\t\t</json:array>\n\t\t</json:property>\n`;
+                    tform+=`\t\t\t<json:property name=\"${this.fixKey(key)}\" value="\${data['${key}']}"/>\n`;
+                }else{
+                    tform+=`\t\t\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
+                }
+            }
+            tform+="\t\t</json:object>\n";
+            tform+=`\t</Core:forEach>\n</json:array>`;
+        }else if(typeof data==="object" && !Array.isArray(data)){
+            tform="<Core:set var=\"data\" value=\"${"+container+".body"+((subcontainer.length>0)?`.${subcontainer}`:"")+"}\"/>\n<json:object>\n";
+            for(var key in data){
+                if(typeof data[key]==="object" && !Array.isArray(data[key])){
+                  if(data[key]==null){
+                    tform+=`\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
+                  }else{
+                    //tform+=`\t<json:property name=\"${this.fixKey(key)}\">\n\t\t<json:object>\n`;
+                    for(var inkey in data[key]){
+                        tform+=`\t<json:property name="${this.fixKey(key)}_${this.fixKey(inkey)}" value="\${data['${key}']['${inkey}']}"/>\n`;
+                    }
+                    //tform+=`\t\t</json:object>\n\t</json:property>\n`;
+                  }
+                }
+                else if(typeof data[key]==="object" && Array.isArray(data[key])){
+                    // tform+=`\t<json:property name=\"${this.fixKey(key)}\">\n\t\t<json:array>\n\t\t\t<json:object>\n`;
+                    // for(var inkey in data[key][0]){
+                    //     tform+=`\t\t\t\t<json:property name="${this.fixKey(inkey)}" value="\${data.${key}_${inkey}}"/>\n`;
+                    // }
+                    // tform+=`\t\t\t</json:object>\n\t\t</json:array>\n\t</json:property>\n`;
+                    tform+=`\t<json:property name=\"${this.fixKey(key)}\" value="\${data['${key}']}"/>\n`;
+                }else{
+                    tform+=`\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
+                }
+            }
+            tform+="</json:object>";
+        }
+        ReactDOM.render(<View value={tform}/>,document.getElementById('root'));
     } catch(e) {
-        ReactDOM.render(<div><p>Unable To Parse JSON</p></div>,document.getElementById('root'));
+        alert("Unable to parse the JSON");
+        ReactDOM.render(<App/>,document.getElementById('root'));
     }
-    var container=document.getElementById('container').value;
-    var subcontainer=document.getElementById('subcontainer').value;
-    //data=data[container];
-    var tform="";
-    if(typeof data==="object" && Array.isArray(data)){
-        tform=`<json:array>\n\t<Core:forEach items="\${${container}.body${((subcontainer.length>0)?`.${subcontainer}`:"")}}" var="data">\n`;
-        tform+="\t\t<json:object>\n";
-        for(var key in data[0]){
-            if(typeof data[key]==="object" && !Array.isArray(data[key])){
-                tform+=`\t\t\t<json:property name=\"${this.fixKey(key)}\">\n\t\t\t\t<json:object>\n`;
-                for(var inkey in data[key]){
-                    tform+=`\t\t\t\t\t<json:property name="${this.fixKey(key)}_${this.fixKey(inkey)}" value="\${data['${key}']['${inkey}']}"/>\n`;
-                }
-                tform+=`\t\t\t\t</json:object>\n\t\t\t</json:property>\n`;
-            }
-            else if(typeof data[key]==="object" && Array.isArray(data[key])){
-                // tform+=`\t\t<json:property name=\"${this.fixKey(key)}\">\n\t\t\t<json:array>\n\t\t\t\t<json:object>\n`;
-                // for(var inkey in data[key][0]){
-                //     tform+=`\t\t\t\t\t<json:property name="${this.fixKey(inkey)}" value="\${data.${key}_${inkey}}"/>\n`;
-                // }
-                // tform+=`\t\t\t\t</json:object>\n\t\t\t</json:array>\n\t\t</json:property>\n`;
-                tform+=`\t\t\t<json:property name=\"${this.fixKey(key)}\" value="\${data['${key}']}"/>\n`;
-            }else{
-                tform+=`\t\t\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
-            }
-        }
-        tform+="\t\t</json:object>\n";
-        tform+=`\t</Core:forEach>\n</json:array>`;
-    }else if(typeof data==="object" && !Array.isArray(data)){
-        tform="<Core:set var=\"data\" value=\"${"+container+".body"+((subcontainer.length>0)?`.${subcontainer}`:"")+"}\"/>\n<json:object>\n";
-        for(var key in data){
-            if(typeof data[key]==="object" && !Array.isArray(data[key])){
-                //tform+=`\t<json:property name=\"${this.fixKey(key)}\">\n\t\t<json:object>\n`;
-                for(var inkey in data[key]){
-                    tform+=`\t<json:property name="${this.fixKey(key)}_${this.fixKey(inkey)}" value="\${data['${key}']['${inkey}']}"/>\n`;
-                }
-                //tform+=`\t\t</json:object>\n\t</json:property>\n`;
-            }
-            else if(typeof data[key]==="object" && Array.isArray(data[key])){
-                // tform+=`\t<json:property name=\"${this.fixKey(key)}\">\n\t\t<json:array>\n\t\t\t<json:object>\n`;
-                // for(var inkey in data[key][0]){
-                //     tform+=`\t\t\t\t<json:property name="${this.fixKey(inkey)}" value="\${data.${key}_${inkey}}"/>\n`;
-                // }
-                // tform+=`\t\t\t</json:object>\n\t\t</json:array>\n\t</json:property>\n`;
-                tform+=`\t<json:property name=\"${this.fixKey(key)}\" value="\${data['${key}']}"/>\n`;
-            }else{
-                tform+=`\t<json:property name="${this.fixKey(key)}" value="\${data['${key}']}"/>\n`;
-            }
-        }
-        tform+="</json:object>";
-    }
-    ReactDOM.render(<View value={tform}/>,document.getElementById('root'));
+    
   }
   render(){
     return (
@@ -101,7 +109,7 @@ class Opt extends React.Component{
               <center>
                 <input type="text" id="container" name="container" placeholder="Http Container"/>
                 <input type="text" id="subcontainer" name="subcontainer" placeholder="Http Sub-container"/><br/>
-                <textarea id="textArea" rows="30" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
+                <textarea id="textArea" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
                 <button type="submit" class="btn btn-primary" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>
             </form>
