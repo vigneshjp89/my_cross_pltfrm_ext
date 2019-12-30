@@ -5,6 +5,7 @@ import './App.css';
 import { render } from '@testing-library/react';
 import Ipt from './Ipt';
 import Opt from './Opt';
+import Resource from './Resource';
 class App extends React.Component{
   constructor() {
     super();
@@ -19,8 +20,10 @@ class App extends React.Component{
     // Say "You are great. I'm glad that there is someone doing this job. Thank you so much" and collect your presents and today's task from them.
     if(data=='ipt'){
       ReactDOM.render(<Ipt />, document.getElementById('root'));
-    }else{
+    }else if(data=='opt'){
       ReactDOM.render(<Opt />, document.getElementById('root'));
+    }else{
+      ReactDOM.render(<Resource />, document.getElementById('root'));
     }
     // alert(data);
     // console.log(data);
@@ -32,6 +35,7 @@ class App extends React.Component{
             <center>
                 <button type="submit" class="btn btn-primary" id="ipt" name="ipt" value="ipt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Input Transformer</button>
                 <button type="submit" class="btn btn-primary" id="opt" name="opt" value="opt" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Output Transformer</button>
+                <button type="submit" class="btn btn-primary" id="res" name="res" value="res" style={{fontSize:'24px',margin:'10px'}} onClick={this.handleSubmit}>Resource Generator</button>
             </center>
         </form>
       </div>

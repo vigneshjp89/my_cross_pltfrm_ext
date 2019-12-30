@@ -1,0 +1,190 @@
+import React from 'react';
+import logo from './logo.svg';
+import App from './App'
+import './App.css';
+import { render } from '@testing-library/react';
+import ReactDOM from 'react-dom';
+import { FilePicker } from 'react-file-picker';
+import View from './view'
+
+class Resource  extends React.Component{
+    constructor(props) {
+        super(props);
+        //ReactDOM.render(<App />, document.getElementById('root'));
+        this.setFile = this.setFile.bind(this);
+      }
+      moveHome(){
+        ReactDOM.render(<App/>,document.getElementById('root'));
+      }
+       postFile(event) {   
+            var resourceUrl=document.getElementById('resourceUrl').value;
+            var sample=JSON.parse(document.getElementById('textArea').value);
+            var tst=(JSON.parse(event.target.value));
+            var zf=tst.zfa;
+            var rind;
+            zf.resources.forEach(function(item,index){
+                if(item.linkName==resourceUrl){
+                    rind=index;
+                }
+            });
+            //alert(rind);
+            function hasKey(key){
+                var flag=false;
+                zf.resources[rind].staticFields.forEach(function(item){
+                    if(item.inputParams.name==key){
+                        flag=true;
+                    }
+                });
+                return flag;
+            }
+            function label(data){
+            var str=data;
+            var patt=/[A-Z]/g;
+            var counter=0;
+            str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
+            var result;
+            while((result=patt.exec(data))&&counter<100){
+            counter++;
+                console.log("At"+result.index+"for"+result[0]);
+                str=str.substring(0,result.index)+' '+result[0].toLowerCase()+str.substring(result.index+1,str.length);
+            }
+            if(str.match(/^Id$/i)){
+                str=str.toUpperCase();
+            }
+            return str;
+            }
+            for(var key in sample){
+            if(typeof sample[key]==='object' && !Array.isArray(sample[key]) && sample[key]!=null){
+                for(var inkey in sample[key]){
+                    var reg=/[A-Z]/g;
+                    var str=inkey.trim();
+                    var match;
+                    var dtype=typeof sample[key][inkey];
+                    if(dtype=='string' && (sample[key][inkey]).match(/[0-9]{2,4}(\-|\/)[0-9]{2}(\-|\/)[0-9]{2,4}$/i)){
+                    dtype="date";
+                    }
+                    if(dtype=='string' && (sample[key][inkey]).match(/[0-9]{2,4}(\-|\/)[0-9]{2}(\-|\/)[0-9]{2,4}(T|\'T\'| )?[0-9:Z\+.]+/i)){
+                    dtype="datetime";
+                    }
+                    var fieldType={"boolean":4,"number":1,"string":0,"object":0,"date":6,"datetime":8};
+                    console.log("In "+key+" - "+inkey);
+                if(key.indexOf('_')!=-1){
+                    while((match=reg.exec(str))!=null){
+                        console.log(match[0]+" "+match.index);
+                        str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
+                    }
+                }
+                else{
+                str=inkey.toLowerCase();
+                str=str.replace(/_/g,' ')
+                }
+                str=str.replace(/_/g,' ');
+                var field={
+                    "inputParams": {
+                        "helpText": "",
+                        "isLabelField": false,
+                        "name": key.replace(/^[0-9!@#$%^&*]+/i,'').trim()+'_'+inkey.trim(),
+                        "isDataTypeField": false,
+                        "zf_has_lists": false,
+                        "isIdField": false,
+                        "isTypeField": false,
+                        "label":label(key)+' - '+label(str),
+                        "fieldType": fieldType[dtype],
+                        "isMandatory": false,
+                        "placeHolder": ""
+                    },
+                    "type": 0,
+                    "category": 1
+                    };
+                if(!hasKey(key.replace(/^[0-9!@#$%^&*]+/i,'').trim()+'_'+inkey.trim()))
+                zf.resources[rind].staticFields.push(field);
+            }
+            }else{
+                    var reg=/[A-Z]/g;
+                    var str=key.trim();;
+                    var fieldType={"boolean":4,"number":1,"string":0,"object":0,"date":6,"datetime":8};
+                    var match;
+                    var dtype=typeof sample[key];
+                    if(dtype=='string' && (sample[key]).match(/[0-9]{2,4}(\-|\/)[0-9]{2}(\-|\/)[0-9]{2,4}$/i)){
+                    dtype="date";
+                    }
+                    if(dtype=='string' && (sample[key]).match(/[0-9]{2,4}(\-|\/)[0-9]{2}(\-|\/)[0-9]{2,4}(T|\'T\'| )?[0-9:Z\+.]+/i)){
+                    dtype="datetime";
+                    }
+                    console.log("In "+key);
+                    while((match=reg.exec(str))!=null){
+                        console.log(match[0]+" "+match.index);
+                        str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
+                }
+            str=str.substring(0,1).toUpperCase()+str.substring(1,str.length).replace(/_/g,' ');
+                var field={
+                    "inputParams": {
+                        "helpText": "",
+                        "isLabelField": false,
+                        "name": key.replace(/^[0-9!@#$%^&*]+/i,'').trim(),
+                        "isDataTypeField": false,
+                        "zf_has_lists": false,
+                        "isIdField": false,
+                        "isTypeField": false,
+                        "label": label(key),//(key.trim().substring(0,1).toUpperCase()+key.trim().substring(1,key.length).replace(/_/g,' ')).replace(/ id$/i,' ID'),
+                        "fieldType": fieldType[dtype],
+                        "isMandatory": false,
+                        "placeHolder": ""
+                    },
+                    "type": 0,
+                    "category": 1
+                    };
+                if(!hasKey(key.replace(/^[0-9!@#$%^&*]+/i,'').trim()))
+                zf.resources[rind].staticFields.push(field);
+            }
+            }
+        // HTTP POST  
+        //ReactDOM.render(<View value={JSON.stringify(zf)}/>,document.getElementById('root'));
+        //this.download('sample.zfa',JSON.stringify(zf));
+        ReactDOM.render(<a href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Download</a>,document.getElementById('root'))
+      }
+       setFile(event) {
+        // Get the details of the files
+        let FileList=event.target.files;
+        let file=FileList[0];
+        
+        let read = new FileReader();
+        read.readAsBinaryString(file);
+        read.onloadend = function(){
+            this.setState({filename:file.name,zfa:JSON.parse(read.result)});
+            //alert(read.result);
+        }.bind(this);
+      }
+    render(){
+        return (
+          <div class="Ipt">
+            <div class="jumbotron">
+              <ul class="header-list">
+                <div class="row">
+                  <div class="cols-sm-4" id="home">
+                    <li><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
+                  </div>
+                  <div class="cols-sm-8" id="title">
+                    <li><center><h2>Resource Generator</h2></center></li>
+                  </div>
+                </div>
+              </ul>
+            </div>
+            <div class="container">
+                <form>
+                  <center>
+                    {//<input type="text" name="container" placeholder="Http Container"/>
+                    /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
+                    <input type="file" name="docx" onChange={this.setFile} />
+                    <input type="text" id="resourceUrl" name="resourceUrl" placeholder="Resource"/><p>Link name of the reosurce to which static fields has to be added</p><br/>
+                    <p>Sample Payload:</p><textarea id="textArea" class="well" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
+                    <button type="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button>
+                  </center>
+                </form>
+            </div>
+          </div>
+        );
+      }
+}
+
+export default Resource;
