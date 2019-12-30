@@ -27,6 +27,8 @@ class Resource  extends React.Component{
                     rind=index;
                 }
             });
+            if(zf.resources[rind].staticFields.length==0)
+            zf.resources[rind].staticFields=[];
             //alert(rind);
             function hasKey(key){
                 var flag=false;
