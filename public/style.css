@@ -18,3 +18,12 @@ textarea{
     background-color: #e9ecef;
     border-radius: 10px;
 }
+.col{
+    float:left;
+}
+span{
+    float:left;
+}
+.row{
+    margin-bottom: 10px;
+}

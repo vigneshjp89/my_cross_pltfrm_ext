@@ -154,6 +154,7 @@ class Resource  extends React.Component{
             this.setState({filename:file.name,zfa:JSON.parse(read.result)});
             //alert(read.result);
         }.bind(this);
+        document.getElementById('FileLabel').innerHTML=file.name;
       }
     render(){
         return (
@@ -175,10 +176,11 @@ class Resource  extends React.Component{
                   <center>
                     {//<input type="text" name="container" placeholder="Http Container"/>
                     /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
-                    <input type="file" name="docx" onChange={this.setFile} />
-                    <input type="text" id="resourceUrl" name="resourceUrl" placeholder="Resource"/><p>Link name of the reosurce to which static fields has to be added</p><br/>
-                    <p>Sample Payload:</p><textarea id="textArea" class="well" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
-                    <button type="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button>
+                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Upload ZFA:</span></div><div class="col-sm-2 justify-content-start"><span><div class="custom-file"><input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/><label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label></div></span></div></div>
+                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Resource link to add static Fields:</span></div><div class="col-sm-2"><span><input class="form-control" type="text" style={{float:"left"}} id="resourceUrl" name="resourceUrl" placeholder="Resource link"/></span></div></div>
+                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Sample Payload:</span></div></div>
+                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><textarea id="textArea" class="well" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea></div></div>
+                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><button type="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div></div>
                   </center>
                 </form>
             </div>
