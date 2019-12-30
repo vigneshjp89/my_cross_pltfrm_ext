@@ -27,3 +27,12 @@ span{
 .row{
     margin-bottom: 10px;
 }
+footer{
+    margin-top:50px;
+}
+label{
+    float: left;
+}
+input{
+    margin-bottom: 20px;
+}

@@ -107,8 +107,23 @@ class Opt extends React.Component{
         <div class="container">
             <form>
               <center>
-                <input type="text" id="container" class="form-control" name="container" placeholder="Http Container"/>
-                <input type="text" id="subcontainer" class="form-control" name="subcontainer" placeholder="Http Sub-container"/><br/>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="container">Http Container :</label>
+                    <input type="text" id="container" class="form-control" name="container" placeholder="Http Container"/>
+                    <div class="valid-feedback">
+                      HTTP container's name
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <label for="subcontainer">Http sub-container :</label>
+                    <input type="text" id="subcontainer" class="form-control" name="subcontainer" placeholder="Http Sub-container"/>
+                    <div class="valid-feedback">
+                      Object within HTTP payload from which output has to extracted.
+                    </div>
+                  </div>
+                </div>
+                <label for="textArea">Sample Payload:</label>
                 <textarea id="textArea" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
                 <button type="submit" class="btn btn-primary" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>

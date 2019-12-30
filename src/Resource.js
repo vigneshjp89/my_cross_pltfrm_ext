@@ -141,7 +141,10 @@ class Resource  extends React.Component{
         // HTTP POST  
         //ReactDOM.render(<View value={JSON.stringify(zf)}/>,document.getElementById('root'));
         //this.download('sample.zfa',JSON.stringify(zf));
-        ReactDOM.render(<a href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Download</a>,document.getElementById('root'))
+        ReactDOM.render(
+            <div class="row vcenter">
+                <a style={{fontSize:"30px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a>
+            </div>,document.getElementById('container'))
       }
        setFile(event) {
         // Get the details of the files
@@ -171,7 +174,7 @@ class Resource  extends React.Component{
                 </div>
               </ul>
             </div>
-            <div class="container">
+            <div id="container" class="container">
                 <form>
                   <center>
                     {//<input type="text" name="container" placeholder="Http Container"/>
@@ -184,7 +187,13 @@ class Resource  extends React.Component{
                   </center>
                 </form>
             </div>
+            <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+                <div class="container text-center">
+                    <small>* Disclaimer: Make a copy of the exported ZFA before creating the resource. Field element type would always be single line text and verify the generated field's data type.</small>
+                </div>
+            </footer>
           </div>
+          
         );
       }
 }
