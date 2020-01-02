@@ -86,9 +86,9 @@ class Ipt extends React.Component{
       <div class="Ipt">
         <div class="jumbotron">
           <ul class="header-list">
-            <div class="row">
+            <div class="row container-fluid">
               <div class="cols-sm-4" id="home">
-                <li><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
+                <li><a class="float"onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
               </div>
               <div class="cols-sm-8" id="title">
                 <li><center><h2>Input Transformer</h2></center></li>
@@ -101,6 +101,7 @@ class Ipt extends React.Component{
               <center>
                 {//<input type="text" name="container" placeholder="Http Container"/>
                 /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
+                <label for="textArea">Sample Payload :</label>
                 <textarea id="textArea" class="well" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea><br/>
                 <button type="submit" class="btn" onClick={this.handleNewSubmit} style={{marginBottom:"20px"}}>Transform</button>
               </center>

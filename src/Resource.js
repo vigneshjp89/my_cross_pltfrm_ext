@@ -47,11 +47,15 @@ class Resource  extends React.Component{
             var counter=0;
             str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
             var result;
-            while((result=patt.exec(data))&&counter<100){
-            counter++;
-                console.log("At"+result.index+"for"+result[0]);
-                str=str.substring(0,result.index)+' '+result[0].toLowerCase()+str.substring(result.index+1,str.length);
-            }
+            while((result=patt.exec(data))){
+                counter++;
+                   if(result.index==0){
+              
+                              }else{
+                              console.log("At"+result.index+"for"+result[0]);
+                              str=str.substring(0,result.index)+(str.charAt((result.index)-1)==' '?"":" ")+result[0].toLowerCase()+str.substring(result.index+1,str.length);
+                              }
+                }
             if(str.match(/^Id$/i)){
                 str=str.toUpperCase();
             }
@@ -72,16 +76,16 @@ class Resource  extends React.Component{
                     }
                     var fieldType={"boolean":4,"number":1,"string":0,"object":0,"date":6,"datetime":8};
                     console.log("In "+key+" - "+inkey);
-                if(key.indexOf('_')!=-1){
-                    while((match=reg.exec(str))!=null){
-                        console.log(match[0]+" "+match.index);
-                        str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
-                    }
-                }
-                else{
-                str=inkey.toLowerCase();
-                str=str.replace(/_/g,' ')
-                }
+                // if(key.indexOf('_')!=-1){
+                //     while((match=reg.exec(str))!=null){
+                //         console.log(match[0]+" "+match.index);
+                //         str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
+                //     }
+                // }
+                // else{
+                // str=inkey.toLowerCase();
+                // str=str.replace(/_/g,' ')
+                // }
                 str=str.replace(/_/g,' ');
                 var field={
                     "inputParams": {
@@ -92,7 +96,7 @@ class Resource  extends React.Component{
                         "zf_has_lists": false,
                         "isIdField": false,
                         "isTypeField": false,
-                        "label":label(key)+' - '+label(str),
+                        "label":label(key)+' - '+label(inkey),
                         "fieldType": fieldType[dtype],
                         "isMandatory": false,
                         "placeHolder": ""
@@ -116,10 +120,10 @@ class Resource  extends React.Component{
                     dtype="datetime";
                     }
                     console.log("In "+key);
-                    while((match=reg.exec(str))!=null){
-                        console.log(match[0]+" "+match.index);
-                        str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
-                }
+                //     while((match=reg.exec(str))!=null){
+                //         console.log(match[0]+" "+match.index);
+                //         str=str.substring(0,match.index)+' '+str[match.index].toLowerCase()+str.substring(match.index+1,str.length);
+                // }
             str=str.substring(0,1).toUpperCase()+str.substring(1,str.length).replace(/_/g,' ');
                 var field={
                     "inputParams": {
