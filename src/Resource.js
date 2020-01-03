@@ -13,6 +13,11 @@ class Resource  extends React.Component{
         //ReactDOM.render(<App />, document.getElementById('root'));
         this.setFile = this.setFile.bind(this);
       }
+    //   keypressHandler(e){
+    //     if(e.key=='Enter'){
+    //         document.getElementById('submit').click();
+    //     }
+    //   }
       moveHome(){
         ReactDOM.render(<App/>,document.getElementById('root'));
       }
@@ -47,7 +52,7 @@ class Resource  extends React.Component{
             var counter=0;
             str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
             var result;
-            while((result=patt.exec(data))){
+            while((result=patt.exec(str))){
                 counter++;
                    if(result.index==0){
               
@@ -187,11 +192,11 @@ class Resource  extends React.Component{
                   <center>
                     {//<input type="text" name="container" placeholder="Http Container"/>
                     /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
-                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Upload ZFA:</span></div><div class="col-sm-2 justify-content-start"><span><div class="custom-file"><input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/><label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label></div></span></div></div>
+                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Upload ZFA:</span></div><div class="col-sm-1 justify-content-start"><span><div class="custom-file"><input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/><label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label></div></span></div>{/*<div class="col-sm-1"><button type="submit" id="submitEasyAcs" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div>*/}</div>
                     <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Resource link to add static Fields:</span></div><div class="col-sm-2"><span><input class="form-control" type="text" style={{float:"left"}} id="resourceUrl" name="resourceUrl" placeholder="Resource link"/></span></div></div>
                     <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Sample Payload:</span></div></div>
-                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><textarea id="textArea" class="well" rows="15" name="textArea" style={{width:'80%',margin:'25px'}}></textarea></div></div>
-                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><button type="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div></div>
+                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><textarea id="textArea" class="well" rows="15" onKeyDown={this.keypressHandler} name="textArea" style={{width:'80%',margin:'25px'}}></textarea></div></div>
+                    <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><button type="submit" id="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div></div>
                   </center>
                 </form>
             </div>
