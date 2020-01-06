@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import { FilePicker } from 'react-file-picker';
 import View from './view'
 
-class Resource  extends React.Component{
+class RecurResource  extends React.Component{
     constructor(props) {
         super(props);
         //ReactDOM.render(<App />, document.getElementById('root'));
@@ -51,32 +51,25 @@ class Resource  extends React.Component{
                 return flag;
             }
             function label(data){
-                var str=data;
-                var patt=/[A-Z]/g;
-                var counter=0;
-                str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
-                var result;
-                while((result=patt.exec(str))){
-                    counter++;
-                       if(result.index==0 || result.index==str.length-1 || str.charAt(result.index+1)=='_'){
-                          //console.log(patt.lastIndex);
-                                  }else if(((result.index!=str.length-1)&&str.charAt((result.index)+1).match(/[A-Z]/g)!=null)){
-                                    if(str.charAt(result.index-1).match(/[A-Z]/g)!=null){
-                                    }else{
-                                        str=str.substring(0,result.index)+(str.charAt((result.index)-1)==' '?"":" ")+result[0]+str.substring(result.index+1,str.length);
-                                    }
-        
-                                }else{
-                                   console.log(patt.lastIndex);
-                                  console.log("At"+result.index+"for"+result[0]);
-                                  str=str.substring(0,result.index)+(str.charAt((result.index)-1)==' '?"":" ")+result[0].toLowerCase()+str.substring(result.index+1,str.length);
-                                  }
-                    }
-                if(str.match(/^Id$/i)){
-                    str=str.toUpperCase();
+            var str=data;
+            var patt=/[A-Z]/g;
+            var counter=0;
+            str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
+            var result;
+            while((result=patt.exec(str))){
+                counter++;
+                   if(result.index==0){
+              
+                              }else{
+                              console.log("At"+result.index+"for"+result[0]);
+                              str=str.substring(0,result.index)+(str.charAt((result.index)-1)==' '?"":" ")+result[0].toLowerCase()+str.substring(result.index+1,str.length);
+                              }
                 }
-                return str;
-                }
+            if(str.match(/^Id$/i)){
+                str=str.toUpperCase();
+            }
+            return str;
+            }
             for(var key in sample){
             if(typeof sample[key]==='object' && !Array.isArray(sample[key]) && sample[key]!=null){
                 for(var inkey in sample[key]){
@@ -167,8 +160,7 @@ class Resource  extends React.Component{
         //this.download('sample.zfa',JSON.stringify(zf));
         ReactDOM.render(
             <div class="row vcenter">
-                <div class="col-sm-4"><a style={{fontSize:"30px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a></div>
-                <div class="col-sm-4"></div>
+                <a style={{fontSize:"30px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a>
             </div>,document.getElementById('container'))
       }
        setFile(event) {
@@ -223,4 +215,4 @@ class Resource  extends React.Component{
       }
 }
 
-export default Resource;
+export default RecurResource;
