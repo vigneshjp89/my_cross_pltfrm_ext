@@ -27,12 +27,12 @@ class Ipt extends React.Component{
           tform="<json:object>\n";
           for(var key in data){
               if(typeof data[key]==="object" && !Array.isArray(data[key])){
-                var testCon=" and ";
+                var testCon="";
                 if(data[key]==null){
                   tform+=`\t<Core:if test="\${!empty(resource['${key}'])}">\n\t\t<json:property name="${key}" value="\${resource.${key}}"/>\n\t</Core:if>\n`;
                 }else{
-                  for(var inkey in data[key][0]){
-                      testCon=`!empty(resource['${key}_${inkey}'])`+testCon;
+                  for(var inkey in data[key]){
+                      testCon+=`!empty(resource['${key}_${inkey}']) and `;
                   }
                   tform+=`\t<Core:if test="\${${testCon.substring(0,testCon.length-5)}}">\n`;
                   tform+=`\t\t<json:property name=\"${key}\">\n\t\t\t<json:object>\n`;
