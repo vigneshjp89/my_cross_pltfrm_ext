@@ -27,8 +27,12 @@ class Resource  extends React.Component{
       }
        postFile(event) {   
             var resourceUrl=document.getElementById('resourceUrl').value;
+            try{
             var sample=JSON.parse(document.getElementById('textArea').value);
             var tst=(JSON.parse(event.target.value));
+            }catch(e){
+                alert("Error parsing JSON");
+            }
             var zf=tst.zfa;
             var rind;
             zf.resources.forEach(function(item,index){
@@ -50,7 +54,7 @@ class Resource  extends React.Component{
                 });
                 return flag;
             }
-            function label(data){
+            function label(data,isNotInkey){
                 var str=data;
                 var patt=/[A-Z]/g;
                 var counter=0;
@@ -72,8 +76,8 @@ class Resource  extends React.Component{
                                   str=str.substring(0,result.index)+(str.charAt((result.index)-1)==' '?"":" ")+result[0].toLowerCase()+str.substring(result.index+1,str.length);
                                   }
                     }
-                if(str.match(/^Id$/i)){
-                    str=str.toUpperCase();
+                if(str.match(/^Id$/i) && isNotInkey){
+                    str=resourceUrl.substring(0,1).toUpperCase()+resourceUrl.substring(1,resourceUrl.length)+' '+str.toUpperCase();
                 }
                 return str;
                 }
@@ -112,7 +116,7 @@ class Resource  extends React.Component{
                         "zf_has_lists": false,
                         "isIdField": false,
                         "isTypeField": false,
-                        "label":label(key)+' - '+label(inkey),
+                        "label":label(key,true)+' - '+label(inkey,false),
                         "fieldType": fieldType[dtype],
                         "isMandatory": false,
                         "placeHolder": ""
@@ -150,7 +154,7 @@ class Resource  extends React.Component{
                         "zf_has_lists": false,
                         "isIdField": false,
                         "isTypeField": false,
-                        "label": label(key),//(key.trim().substring(0,1).toUpperCase()+key.trim().substring(1,key.length).replace(/_/g,' ')).replace(/ id$/i,' ID'),
+                        "label": label(key,true),//(key.trim().substring(0,1).toUpperCase()+key.trim().substring(1,key.length).replace(/_/g,' ')).replace(/ id$/i,' ID'),
                         "fieldType": fieldType[dtype],
                         "isMandatory": false,
                         "placeHolder": ""
@@ -167,7 +171,7 @@ class Resource  extends React.Component{
         //this.download('sample.zfa',JSON.stringify(zf));
         ReactDOM.render(
             <div class="row vcenter">
-                <div class="col-sm-4"><a style={{fontSize:"30px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a></div>
+                <div class="col-sm-4"><a style={{fontSize:"18px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a></div>
                 <div class="col-sm-4"></div>
             </div>,document.getElementById('container'))
       }
@@ -187,18 +191,7 @@ class Resource  extends React.Component{
     render(){
         return (
           <div class="Ipt">
-            <div class="jumbotron">
-              <ul class="header-list">
-                <div class="row">
-                  <div class="cols-sm-4" id="home">
-                    <li><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
-                  </div>
-                  <div class="cols-sm-8" id="title">
-                    <li><center><h2>Resource Generator</h2></center></li>
-                  </div>
-                </div>
-              </ul>
-            </div>
+            <div class="jumbotron"><div class="cols-sm-4" id="home"><a onClick={this.moveHome} style={{color:'blue'}} class="float">&lt;- Home</a></div><div class="row container-fluid title"><div class="col-sm-12 title" id="title"><h2>Resource Generator</h2></div></div></div>
             <div id="container" class="container">
                 <form>
                   <center>

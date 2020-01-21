@@ -28,7 +28,8 @@ span{
     margin-bottom: 10px;
 }
 footer{
-    margin-top:50px;
+    margin-top: 30px;
+    bottom:0;
 }
 label{
     float: left;
@@ -41,4 +42,9 @@ body{
     min-width: 500px;
     max-width: 500px;
     max-height: 500px;
+}
+.title{
+
+    justify-content: center;
+    display: flex;
 }

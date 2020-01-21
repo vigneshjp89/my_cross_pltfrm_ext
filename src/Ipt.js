@@ -32,9 +32,9 @@ class Ipt extends React.Component{
                   tform+=`\t<Core:if test="\${!empty(resource['${key}'])}">\n\t\t<json:property name="${key}" value="\${resource.${key}}"/>\n\t</Core:if>\n`;
                 }else{
                   for(var inkey in data[key]){
-                      testCon+=`!empty(resource['${key}_${inkey}']) and `;
+                      testCon+=`!empty(resource['${key}_${inkey}']) or `;
                   }
-                  tform+=`\t<Core:if test="\${${testCon.substring(0,testCon.length-5)}}">\n`;
+                  tform+=`\t<Core:if test="\${${testCon.substring(0,testCon.length-4)}}">\n`;
                   tform+=`\t\t<json:property name=\"${key}\">\n\t\t\t<json:object>\n`;
                   for(var inkey in data[key]){
                       tform+=`\t\t\t\t<Core:if test="\${!empty(resource['${key}_${inkey}'])}">\n\t\t\t\t\t<json:property name="${inkey}" value="\${resource.${key}_${inkey}}"/>\n\t\t\t\t</Core:if>\n`;
@@ -55,9 +55,9 @@ class Ipt extends React.Component{
                   }else if(typeof data[key][0]==="object"&&!Array.isArray(data[key][0])&&(Object.keys(data[key][0]).length>2)){
                       var testCon="";
                       for(var inkey in data[key][0]){
-                      testCon+=`!empty(resource['${key}_${inkey}']) and `;
+                      testCon+=`!empty(resource['${key}_${inkey}']) or `;
                       }
-                      tform+=`\t<Core:if test="\${${testCon.substring(0,testCon.length-5)}}">\n\t\t<json:property name=\"${key}\">\n\t\t\t<json:array>\n`;
+                      tform+=`\t<Core:if test="\${${testCon.substring(0,testCon.length-4)}}">\n\t\t<json:property name=\"${key}\">\n\t\t\t<json:array>\n`;
                       tform+=`\t\t\t\t<json:object>\n`;
                       for(var inkey in data[key][0]){
                           tform+=`\t\t\t\t\t<Core:if test="\${!empty(resource.${key}_${inkey})}">\n\t\t\t\t\t\t<json:property name="${inkey}" value="\${resource.${key}_${inkey}}"/>\n\t\t\t\t\t</Core:if>\n`;
@@ -89,16 +89,14 @@ class Ipt extends React.Component{
     return (
       <div class="Ipt">
         <div class="jumbotron">
-          <ul class="header-list">
-            <div class="row container-fluid">
-              <div class="cols-sm-4" id="home">
-                <li><a class="float"onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a></li>
-              </div>
-              <div class="cols-sm-8" id="title">
-                <li><center><h2>Input Transformer</h2></center></li>
-              </div>
+          <div class="cols-sm-4" id="home">
+            <a class="float" onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a>
+          </div>
+          <div class="row container-fluid">
+            <div class="col-sm-12 title" id="title">
+              <h2>Input Transformer</h2>
             </div>
-          </ul>
+          </div>
         </div>
         <div class="container">
             <form>
