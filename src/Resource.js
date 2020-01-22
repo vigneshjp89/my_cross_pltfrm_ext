@@ -77,7 +77,7 @@ class Resource  extends React.Component{
                                   }
                     }
                 if(str.match(/^Id$/i) && isNotInkey){
-                    str=resourceUrl.substring(0,1).toUpperCase()+resourceUrl.substring(1,resourceUrl.length)+' '+str.toUpperCase();
+                    str=label(resourceUrl,true)+' '+str.toUpperCase();
                 }
                 return str;
                 }
