@@ -7,11 +7,9 @@ import ReactDOM from 'react-dom';
 import View from './view'
 
 class Ipt extends React.Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     //ReactDOM.render(<App />, document.getElementById('root'));
-    this.state={click:false};
-    this.recurResource=this.recurResource.bind(this);
     this.handleNewSubmit = this.handleNewSubmit.bind(this);
   }
   moveHome(){
