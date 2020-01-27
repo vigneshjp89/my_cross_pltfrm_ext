@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import App from './App';
-import recurResource from './RecurResource';
+import ResourceDisp from  './ResourceDisp';
 import './App.css';
 import { render } from '@testing-library/react';
 import ReactDOM from 'react-dom';
@@ -12,7 +12,13 @@ class Resource  extends React.Component{
     constructor(props) {
         super(props);
         //ReactDOM.render(<App />, document.getElementById('root'));
+        this.state={click:false};
+        //this.recurResource=this.recurResource.bind(this);
         this.setFile = this.setFile.bind(this);
+        this.postFile=this.postFile.bind(this);
+        this.moveViewer=this.moveViewer.bind(this);
+        this.setzf=this.setzf.bind(this);
+        //this.recurResource=this.recurResource.bind(this);
       }
     //   keypressHandler(e){
     //     if(e.key=='Enter'){
@@ -22,27 +28,39 @@ class Resource  extends React.Component{
       moveHome(){
         ReactDOM.render(<App/>,document.getElementById('root'));
       }
-      recurResource(){
-          ReactDOM.render(<recurResource value={this.state}/>,document.getElementById('root'));
+      moveViewer(){
+          alert(this.state.rindex);
+        ReactDOM.render(<ResourceDisp value={this.state}/>,document.getElementById('container'));
       }
-       postFile(event) {   
+       async postFile(event) {   
             var resourceUrl=document.getElementById('resourceUrl').value;
+            let currentComponent=this;
             try{
             var sample=JSON.parse(document.getElementById('textArea').value);
             var tst=(JSON.parse(event.target.value));
-            }catch(e){
-                alert("Error parsing JSON");
-            }
             var zf=tst.zfa;
-            var rind;
+            var rind=-1;
             zf.resources.forEach(function(item,index){
                 if(item.linkName==resourceUrl){
                     rind=index;
                 }
             });
+            if(rind==-1){
+                zf.resources.push({
+                  "staticFields":[],
+                  "displayName":label(resourceUrl,true),
+                  "description":"",
+                  "linkName":resourceUrl
+                });
+                zf.resources.forEach(function(item,index){
+                    if(item.linkName==resourceUrl){
+                        rind=index;
+                    }
+                });
+              }
             if(!zf.resources[rind].hasOwnProperty('staticFields'))
             zf.resources[rind].staticFields=[];
-            if(zf.resources[rind].hasOwnProperty('staticFields')&&zf.resources[rind].staticFields.length==0)
+            if(zf.resources[rind].hasOwnProperty('staticFields') && zf.resources[rind].staticFields.length==0)
             zf.resources[rind].staticFields=[];
             //alert(rind);
             function hasKey(key){
@@ -169,12 +187,25 @@ class Resource  extends React.Component{
         // HTTP POST  
         //ReactDOM.render(<View value={JSON.stringify(zf)}/>,document.getElementById('root'));
         //this.download('sample.zfa',JSON.stringify(zf));
-        ReactDOM.render(
-            <div class="row vcenter">
-                <div class="col-sm-4"><a style={{fontSize:"18px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a></div>
-                <div class="col-sm-4"></div>
-            </div>,document.getElementById('container'))
+        // ReactDOM.render(
+        //     <div class="row vcenter">
+        //         <div class="col-sm-4"><a onClick={this.recurResource} style={{color:'blue'}} id="recurR">Add More</a></div>
+        //         {/*<div class="col-sm-4"><a style={{fontSize:"18px",margin:"40%"}} href={("data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(zf)))} download={(tst.filename)}>Export ZFA</a></div>*/}
+        //     </div>,document.getElementById('container'));
+        try{
+            //alert(JSON.stringify(zf.resources[rind]));
+        await this.setzf({rindex:rind,zfa:zf});  
+        }catch(e){
+            alert("Unable to set state"+e);
+        }
+        }catch(e){
+            alert("Error parsing JSON");
+        }
+        this.moveViewer();
       }
+        async setzf(val){
+            await this.setState(val);
+        }
        setFile(event) {
         // Get the details of the files
         let FileList=event.target.files;

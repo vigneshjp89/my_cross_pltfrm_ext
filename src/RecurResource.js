@@ -9,11 +9,11 @@ import { FilePicker } from 'react-file-picker';
 import View from './view'
 
 class RecurResource  extends React.Component{
-    constructor(props) {
-        super(props);
-        //ReactDOM.render(<App />, document.getElementById('root'));
-        this.setFile = this.setFile.bind(this);
-      }
+    // constructor(props) {
+    //     super(props);
+    //     //ReactDOM.render(<App />, document.getElementById('root'));
+    //     this.setFile = this.setFile.bind(this);
+    //   }
     //   keypressHandler(e){
     //     if(e.key=='Enter'){
     //         document.getElementById('submit').click();
@@ -30,12 +30,25 @@ class RecurResource  extends React.Component{
             var sample=JSON.parse(document.getElementById('textArea').value);
             var tst=(JSON.parse(event.target.value));
             var zf=tst.zfa;
-            var rind;
+            var rind=-1;
             zf.resources.forEach(function(item,index){
                 if(item.linkName==resourceUrl){
                     rind=index;
                 }
             });
+            if(rind==-1){
+              zf.resources.push({
+                "staticFields":[],
+                "displayName":label(resourceUrl),
+                "description":"",
+                "linkName":resourceUrl
+              });
+              zf.resources.forEach(function(item,index){
+                if(item.linkName==resourceUrl){
+                    rind=index;
+                }
+              });
+            }
             if(!zf.resources[rind].hasOwnProperty('staticFields'))
             zf.resources[rind].staticFields=[];
             if(zf.resources[rind].hasOwnProperty('staticFields')&&zf.resources[rind].staticFields.length==0)
