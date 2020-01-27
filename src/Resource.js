@@ -29,7 +29,7 @@ class Resource  extends React.Component{
         ReactDOM.render(<App/>,document.getElementById('root'));
       }
       moveViewer(){
-          alert(this.state.rindex);
+         // alert(this.state.rindex);
         ReactDOM.render(<ResourceDisp value={this.state}/>,document.getElementById('container'));
       }
        async postFile(event) {   
