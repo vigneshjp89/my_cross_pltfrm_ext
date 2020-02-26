@@ -43,7 +43,7 @@ class Ipt extends React.Component{
                   tform+=`\t</Core:if>\n`;
                 }
               }else if(typeof data[key]==="object" && Array.isArray(data[key])){
-                  if(typeof data[key][0]==="object"&&!Array.isArray(data[key][0])&&(Object.keys(data[key][0]).length<2)){
+                  if(typeof data[key][0]==="object"&&(!Array.isArray(data[key][0]))&&(Object.keys(data[key][0]).length<2)){
                       tform+=`\t<Core:if test="\${!empty(resource['${key}'])}">\n\t\t<json:property name=\"${key}\">\n\t\t\t<json:array>\n`;
                       tform+=`\t\t\t\t<Core:forEach items="\${resource['${key}'].tolist(',')}" var="item">\n\t\t\t\t\t<json:object>\n`;
                       for(var inkey in data[key][0]){
@@ -52,7 +52,7 @@ class Ipt extends React.Component{
                       tform+=`\t\t\t\t\t</json:object>\n\t\t\t\t</Core:forEach>\n`;
                       tform+=`\t\t\t</json:array>\n\t\t</json:property>\n`;
                       tform+=`\t</Core:if>\n`;
-                  }else if(typeof data[key][0]==="object"&&!Array.isArray(data[key][0])&&(Object.keys(data[key][0]).length>2)){
+                  }else if(typeof data[key][0]==="object"&&(!Array.isArray(data[key][0]))&&(Object.keys(data[key][0]).length>=2)){
                       var testCon="";
                       for(var inkey in data[key][0]){
                       testCon+=`!empty(resource['${key}_${inkey}']) or `;

@@ -17,7 +17,7 @@ class Opt extends React.Component{
   }
   fixKey(key){
     key=key.replace(/[^a-zA-Z0-9_]/g,'_');
-    key=key.replace(/^[$!@#%^&*()]/i,'');
+    key=key.replace(/^[0-9_$!@#%^&*()]/i,'');
     return key;
   }
   handleNewSubmit(event){

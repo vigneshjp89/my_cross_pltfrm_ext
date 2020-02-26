@@ -30,7 +30,7 @@ class Resource  extends React.Component{
       }
       moveViewer(){
          // alert(this.state.rindex);
-        ReactDOM.render(<ResourceDisp value={this.state}/>,document.getElementById('container'));
+        ReactDOM.render(<ResourceDisp value={this.state}/>,document.getElementById('root'));
       }
        async postFile(event) {   
             var resourceUrl=document.getElementById('resourceUrl').value;
@@ -76,7 +76,7 @@ class Resource  extends React.Component{
                 var str=data;
                 var patt=/[A-Z]/g;
                 var counter=0;
-                str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length).replace(/_/g,' ')).replace(/ id$/i,' ID');
+                str=(str.trim().substring(0,1).toUpperCase()+str.trim().substring(1,str.length)).replace(/_/g,' ').replace(/ id$/i,' ID');
                 var result;
                 while((result=patt.exec(str))){
                     counter++;
