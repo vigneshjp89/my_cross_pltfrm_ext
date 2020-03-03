@@ -96,6 +96,8 @@ class Resource  extends React.Component{
                     }
                 if(str.match(/^Id$/i) && isNotInkey){
                     str=label(resourceUrl,true)+' '+str.toUpperCase();
+                }else if(str.match(/^Id$/i) && !isNotInkey){
+                    str=str.toUpperCase();
                 }
                 return str;
                 }

@@ -18,6 +18,7 @@ class Resource  extends React.Component{
         this.setFile = this.setFile.bind(this);
         this.postFile=this.postFile.bind(this);
         this.moveViewer=this.moveViewer.bind(this);
+        this.moveHome=this.moveHome.bind(this);
         this.setzf=this.setzf.bind(this);
         //this.recurResource=this.recurResource.bind(this);
       }
@@ -96,6 +97,8 @@ class Resource  extends React.Component{
                     }
                 if(str.match(/^Id$/i) && isNotInkey){
                     str=label(resourceUrl,true)+' '+str.toUpperCase();
+                }else if(str.match(/^Id$/i) && !isNotInkey){
+                    str=str.toUpperCase();
                 }
                 return str;
                 }

@@ -14,6 +14,10 @@ class ResourceDisp extends Component{
         zfa:this.props.value.zfa
       };
       this.recurResource=this.recurResource.bind(this);
+      this.moveHome=this.moveHome.bind(this);
+    }
+    moveHome(){
+      ReactDOM.render(<App/>,document.getElementById('root'));
     }
     recurResource(){
       //var testValue=this.state;
