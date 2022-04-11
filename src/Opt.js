@@ -26,6 +26,9 @@ class Opt extends React.Component{
       try {
         data=JSON.parse(data);
         var container=document.getElementById('container').value;
+        if(container==null||container==""){
+          container="hTTPRequest_1";
+        }
         var subcontainer=document.getElementById('subcontainer').value;
         //data=data[container];
         var tform="";

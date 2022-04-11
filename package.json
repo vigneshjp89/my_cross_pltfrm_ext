@@ -3,14 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sentry/browser": "^6.15.0",
+    "@sentry/tracing": "^6.15.0",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "bootstrap": "^4.4.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "bootstrap": "^4.6.0",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.5.1",
+    "jszip": "^3.6.0",
+    "jszip-utils": "^0.1.0",
+    "popper.js": "^1.16.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-file-picker": "0.0.6",
-    "react-scripts": "3.3.0"
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

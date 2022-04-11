@@ -10,6 +10,7 @@ class View extends Component{
     ReactDOM.render(<App/>,document.getElementById('root'));
   }
   render(){
+    console.log("in server");
   return(<div class="container"><a onClick={this.moveHome} style={{color:'blue'}}>&lt;- Home</a><br/><div class="well"><textarea id="textArea" rows="15" style={{width:'80%',margin:'25px'}} name="textArea" value={this.props.value}></textarea></div></div>);
   }
 }
