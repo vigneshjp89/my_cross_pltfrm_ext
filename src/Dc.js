@@ -7,7 +7,8 @@ import { render } from '@testing-library/react';
 import ReactDOM from 'react-dom';
 import { FilePicker } from 'react-file-picker';
 import View from './view'
-
+import env from './env/env';
+console.log(env);
 class Dc  extends React.Component{
     constructor(props) {
         super(props);
@@ -18,6 +19,7 @@ class Dc  extends React.Component{
         this.postFile=this.postFile.bind(this);
         this.moveViewer=this.moveViewer.bind(this);
         this.setzf=this.setzf.bind(this);
+        this.setislz=this.setislz.bind(this);
         //this.recurResource=this.recurResource.bind(this);
       }
     //   keypressHandler(e){
@@ -39,7 +41,18 @@ class Dc  extends React.Component{
             //var sample=JSON.parse(document.getElementById('textArea').value);
             var tst=(JSON.parse(event.target.value));
             var zf=tst.zfa;
+            var islz=currentComponent.state.islz;
             var zfstr=JSON.stringify(zf);
+            if(islz){
+              var mstr=zfstr.match(/(?<=https:\/\/)([a-zA-Z0-9]+)(?!\.zoho\.com)\.([a-zA-Z]+)(?=\.com)/m);
+              if(mstr!==null && mstr!==undefined){
+                zfstr=zfstr.replace(/(?<=https:\/\/)([a-zA-Z0-9]+)(?!\.zoho\.com)\.([a-zA-Z]+)(?=\.com)/gm,mstr[1]+".local"+mstr[2]);
+              }
+              console.log(mstr);
+            }
+            var zfaL=JSON.parse(zfstr.replaceAll("zoho.com","localzoho.com"));
+            zfaL.service[env.data.z0][env.data.z1][env.data.z3]=env.data.l.cs;
+            zfaL.service[env.data.z0][env.data.z1][env.data.z2]=env.data.l.ci;
             var zfaCN=JSON.parse(zfstr.replaceAll("zoho.com","zoho.com.cn").replaceAll("zohoapis.com","zohoapis.com.cn"));
             var zfaIN=JSON.parse(zfstr.replaceAll("zoho.com","zoho.in").replaceAll("zohoapis.com","zohoapis.in"));
             var zfaAU=JSON.parse(zfstr.replaceAll("zoho.com","zoho.com.au").replaceAll("zohoapis.com","zohoapis.com.au"));
@@ -56,14 +69,23 @@ class Dc  extends React.Component{
             //var rind=-1;
             try{
                 //alert(JSON.stringify(zf.resources[rind]));
-            await this.setzf({eu:zfaEU,in:zfaIN,cn:zfaCN,au:zfaAU,jp:zfaJP});  
+              if(islz){
+                await this.setzf({l:zfaL});
+              }else{
+                await this.setzf({eu:zfaEU,in:zfaIN,cn:zfaCN,au:zfaAU,jp:zfaJP});  
+              }
             }catch(e){
                 alert("Unable to set state"+e);
             }
         }catch(e){
+            console.log(e);
             alert("Error parsing JSON");
         }
         this.moveViewer();
+      }
+      setislz(event){
+        console.log(event.target.checked);
+        this.setState({...this.state,islz:event.target.checked});
       }
         async setzf(val){
             await this.setState(val);
@@ -74,9 +96,10 @@ class Dc  extends React.Component{
         let file=FileList[0];
         
         let read = new FileReader();
-        read.readAsBinaryString(file);
+        read.readAsText(file,'UTF-8');
         read.onloadend = function(){
-            this.setState({filename:file.name,zfa:JSON.parse(read.result)});
+            console.log(read.result);
+            this.setState({filename:file.name,islz:false,zfa:JSON.parse(read.result)});
             //alert(read.result);
         }.bind(this);
         document.getElementById('FileLabel').innerHTML=file.name;
@@ -90,7 +113,23 @@ class Dc  extends React.Component{
                   <center>
                     {//<input type="text" name="container" placeholder="Http Container"/>
                     /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
-                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Upload ZFA:</span></div><div class="col-sm-1 justify-content-start"><span><div class="custom-file"><input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/><label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label></div></span></div>{/*<div class="col-sm-1"><button type="submit" id="submitEasyAcs" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div>*/}</div>
+                    <div class="row justify-content-start">
+                      <div class="col-sm-2 justify-content-start">
+                        <span style={{float:"left"}} class="pull-left">Upload ZFA:</span>
+                      </div>
+                      <div class="col-sm-1 justify-content-start">
+                        <span>
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/>
+                            <label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label>
+                          </div>
+                          <div class="isForLocal">
+
+                            <input type="checkbox" name="islz" value="false" onChange={this.setislz}/><label >Is ZFA for LocalZoho:</label>
+                          </div>
+                        </span>
+                      </div>
+                    </div>
                     <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><button type="submit" id="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div></div>
                   </center>
                 </form>

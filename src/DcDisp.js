@@ -12,14 +12,22 @@ import { saveAs } from 'file-saver';
 class DcDisp extends Component{
     constructor(props){
       super(props);
-      this.state={
-        filename:this.props.value.filename,
-        eu:this.props.value.eu,
-        in:this.props.value.in,
-        au:this.props.value.au,
-        cn:this.props.value.cn,
-        jp:this.props.value.jp
-      };
+      if(this.props.value.islz){
+        this.state={
+          filename:this.props.value.filename,
+          l:this.props.value.l
+        };
+      }else{
+        this.state={
+          filename:this.props.value.filename,
+          eu:this.props.value.eu,
+          in:this.props.value.in,
+          au:this.props.value.au,
+          cn:this.props.value.cn,
+          jp:this.props.value.jp
+        };
+      }
+      
       //this.recurResource=this.recurResource.bind(this);
       this.moveHome=this.moveHome.bind(this);
       this.create_zip=this.create_zip.bind(this);
@@ -28,17 +36,24 @@ class DcDisp extends Component{
         var zip = new JSZip();
         console.log("in create zip");
         var fileNM=this.state.filename;
-        zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_EU."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.eu));
-        zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_IN."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.in));
-        zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_CN."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.cn));
-        zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_AU."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.au));
-        zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_JP."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.jp));
-        //var content = zip.generate();
-        zip.generateAsync({type:"blob"})
-.then(function(content) {
-    // see FileSaver.js
-    saveAs(content, fileNM.substring(0,fileNM.lastIndexOf('.'))+".zip");
-});
+        if(this.state.hasOwnProperty("l")){
+          var blob = new Blob([JSON.stringify(this.state.l)], {type: "text/plain;charset=utf-8"});
+          saveAs(blob, this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_local."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length));
+        }else{
+          zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_EU."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.eu));
+          zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_IN."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.in));
+          zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_CN."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.cn));
+          zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_AU."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.au));
+          zip.file(this.state.filename.substring(0,this.state.filename.lastIndexOf('.'))+"_JP."+this.state.filename.substring(this.state.filename.lastIndexOf('.')+1,this.state.filename.length), JSON.stringify(this.state.jp));
+          //var content = zip.generate();
+          zip.generateAsync({type:"blob"})
+          .then(function(content) {
+              // see FileSaver.js
+              saveAs(content, fileNM.substring(0,fileNM.lastIndexOf('.'))+".zip");
+          });
+
+        }
+        
         //return("data:application/zip;base64," + content);
     }
     moveHome(){

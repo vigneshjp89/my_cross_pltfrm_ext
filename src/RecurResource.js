@@ -13,13 +13,14 @@ class Resource  extends React.Component{
         super(props);
         //ReactDOM.render(<App />, document.getElementById('root'));
         this.state={filename:this.props.value.filename,
-        zfa:this.props.value.zfa};
+        zfa:this.props.value.zfa,toreplace:false};
         //this.recurResource=this.recurResource.bind(this);
         this.setFile = this.setFile.bind(this);
         this.postFile=this.postFile.bind(this);
         this.moveViewer=this.moveViewer.bind(this);
         this.moveHome=this.moveHome.bind(this);
         this.setzf=this.setzf.bind(this);
+        this.replaceResource=this.replaceResource.bind(this);
         //this.recurResource=this.recurResource.bind(this);
       }
     //   keypressHandler(e){
@@ -27,6 +28,11 @@ class Resource  extends React.Component{
     //         document.getElementById('submit').click();
     //     }
     //   }
+    replaceResource(e){
+        let temp=this.state;
+        temp.toreplace=e.target.checked;  
+        this.setState(temp);
+      }
       moveHome(){
         ReactDOM.render(<App/>,document.getElementById('root'));
       }
@@ -46,7 +52,7 @@ class Resource  extends React.Component{
                     rind=index;
                 }
             });
-            if(rind==-1){
+            if(rind==-1||this.state.toreplace){
                 zf.resources.push({
                   "staticFields":[],
                   "displayName":label(resourceUrl,true),
@@ -215,7 +221,7 @@ class Resource  extends React.Component{
         let file=FileList[0];
         
         let read = new FileReader();
-        read.readAsBinaryString(file);
+        read.readAsText(file,'UTF-8');
         read.onloadend = function(){
             this.setState({filename:file.name,zfa:JSON.parse(read.result)});
             //alert(read.result);
@@ -233,6 +239,7 @@ class Resource  extends React.Component{
                     /*<input type="text" name="subcontainer" placeholder="Http Sub-container"/><br/>*/}
                     {//<div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Upload ZFA:</span></div><div class="col-sm-1 justify-content-start"><span><div class="custom-file"><input type="file" class="custom-file-input" name="docx" onChange={this.setFile} required/><label class="custom-file-label" id="FileLabel" for="validatedCustomFile">Choose file...</label></div></span></div>{/*<div class="col-sm-1"><button type="submit" id="submitEasyAcs" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div>*/}</div>
                     }<div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Resource link to add static Fields:</span></div><div class="col-sm-2"><span><input class="form-control" type="text" style={{float:"left"}} id="resourceUrl" name="resourceUrl" placeholder="Resource link"/></span></div></div>
+                    <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Replace Existing: </span><input type="checkbox" name="isreplace" onChecked={this.replaceResource}/></div></div>
                     <div class="row justify-content-start"><div class="col-sm-2 justify-content-start"><span style={{float:"left"}} class="pull-left">Sample Payload:</span></div></div>
                     <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><textarea id="textArea" class="well" rows="15" onKeyDown={this.keypressHandler} name="textArea" style={{width:'80%',margin:'25px'}}></textarea></div></div>
                     <div class="row justify-content-start"><div class="col-lg-10 justify-content-center"><button type="submit" id="submit" class="btn btn-primary" onClick={this.postFile} value={JSON.stringify(this.state)}>Generate</button></div></div>
